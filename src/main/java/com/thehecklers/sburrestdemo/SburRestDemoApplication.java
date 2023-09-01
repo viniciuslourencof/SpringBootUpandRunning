@@ -3,6 +3,8 @@ package com.thehecklers.sburrestdemo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +17,10 @@ import javax.persistence.Id;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @SpringBootApplication
+@ConfigurationPropertiesScan
 public class SburRestDemoApplication {
 
 	public static void main(String[] args) {
@@ -48,15 +48,22 @@ class DataLoader {
 	}
 }
 
-@RestController 
-@RequestMapping("/greeting")
-class GreetingController {
-	@Value("${greeting-name: Mirage}")
+@ConfigurationProperties(prefix = "greeting")
+class Greeting {
 	private String name;
+	private String coffee;
 
-	@GetMapping
-	String GetGreeting () {
+	public String getName() {
 		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCoffee() {
+		return coffee;
+	}
+	public void setCoffee(String coffee) {
+		this.coffee = coffee;
 	}
 }
 
